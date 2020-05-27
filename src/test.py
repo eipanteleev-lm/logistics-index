@@ -60,10 +60,10 @@ if __name__ == "__main__":
     # test random model 
 
     def random_model(train, test, bounds):
-        if not train.empty:
-            d = make_from_df(train[["sale", "defect", "spec_needs", "theft", "unknown"]])
+        if not train.empty and not test.empty:
+            d = make_from_df(train[["sale", "defect", "spec_needs", "theft", "unknown"]])    
             z = test.iloc[0]['th_stock']
-            y = find_best_solution(z, d, bounds)
+            y, _, _ = find_best_solution(z, d, bounds, 500)
             return z + y + test.iloc[0][["sale", "defect", "spec_needs", "theft", "unknown"]].sum()
 
         return 1
@@ -73,5 +73,3 @@ if __name__ == "__main__":
     p = r['P{0 < Zt < A}'].mean()
     r.to_pickle('random_model_result.pkl')
     print(f"Random model: -E{{Zt|Zt < 0}} = {e}; P{{0 < Zt < A}} = {p}")
-
-    

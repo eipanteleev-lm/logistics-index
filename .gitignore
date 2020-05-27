@@ -1,4 +1,11 @@
-__pycache__
-env
 .vscode
+.idea
+.dev
+
+# Python
+__pycache__/
+env
+
 *.pkl
+*.db
+*.db-journal

@@ -49,7 +49,6 @@ app.layout = html.Div(children=[
         ], style={'pading': 2, 'marging': 2})
     ], style={'columnCount': 2}),
 
-
     html.Hr(),
 
     dcc.Loading(
@@ -62,7 +61,7 @@ app.layout = html.Div(children=[
 ])
 
 @app.callback(
-    [Output('logistic-index', 'children'), Output('order-output', 'children')],
+    Output('logistic-index', 'children'),
     [Input('submit-button-state', 'n_clicks')], 
     [State('item-input', 'value'), State('store-input', 'value'), State('period-slider', 'value')]
 )
@@ -78,9 +77,6 @@ def return_index(n_clicks, item, store, depth):
 
     e, p, _ = logistics_index(z, distributions, (0, A), depth, 10000)
 
-    by, be, bp = find_best_solution(z, distributions, (0, A), depth)
-
-    # return f"""\nResult: Current Stock: {z} -E{{Zt|Zt < 0}} = {e} \n P{{0 < Zt < A}} = {p}"""
     return html.Div(children=[
         html.Div(html.H2('Stock: ' + f'{z}'), 
             style={'backgroundColor': '#E1886B', 'pading': 2, 'marging': 2}
@@ -94,7 +90,27 @@ def return_index(n_clicks, item, store, depth):
         html.Div(html.H2(f'P{{0 < Zt < {A}}} = ' + f'{p}'),
             style={'backgroundColor': '#33FF8B', 'pading': 2, 'marging': 2}
         )
-    ]), html.Div(children=[
+    ])
+
+@app.callback(
+    Output('order-output', 'children'),
+    [Input('submit-button-state', 'n_clicks')], 
+    [State('item-input', 'value'), State('store-input', 'value'), State('period-slider', 'value')]
+)
+def return_order(n_clicks, item, store, depth):
+    filtered_df = data[data['loc'] == int(store)]
+    distributions = make_from_df(filtered_df[["sale", "defect", "spec_needs", "theft", "unknown"]])
+    A = stock_optimum(
+        filtered_df[["sale", "defect", "spec_needs", "theft", "unknown"]],
+        0.62,
+        64)
+
+    z = filtered_df['th_stock'].iloc[-1]
+    print(z, (0, A), 1000, depth)
+
+    by, be, bp = find_best_solution(z, distributions, (0, A), 1000, depth)
+
+    return html.Div(children=[
         html.Div(html.H2('Order: ' + f'{by}'), 
             style={'backgroundColor': '#8F4EF2', 'pading': 2, 'marging': 2}
         ),
@@ -108,4 +124,4 @@ def return_index(n_clicks, item, store, depth):
 
 
 if __name__ == '__main__':
-    app.run_server(debug=True)
+    app.run_server(host='0.0.0.0', port=5000, debug=True)
