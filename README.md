@@ -4,7 +4,31 @@ Dashboard app for product ordering decision making.
 
 ## Summary
 
-...
+Determining the economic order quantity has always been one of the most important issues in inventory management. This repository proposes a data-driven custom model and dashboard app for ordering decision making, which takes into account actual for large retail companies problems, such as thefts, defects and poor data quality, is defined. 
+
+## Repository structure
+
+```
+.
+|-queries
+|  |-operations_weekly.sql
+|  |-operations.sql
+|-src
+|  |-stats
+|  |  |-distributions.py
+|  |  |-index.py
+|  |  |-negative_stock_expected_value.py
+|  |  |-stock_optimum.py
+|  |-app.py
+|  |-config.py
+|  |-connections.py
+|  |-test.py
+|-.dockerignore
+|-.gitignore
+|-Dockerfile
+|-README.md
+|-requirements.txt
+```
 
 ## Links
 
