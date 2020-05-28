@@ -1,4 +1,5 @@
 import dash
+import dash_table
 import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output, State
@@ -8,13 +9,12 @@ from stats.distributions import make_from_df
 from stats.index import logistics_index
 from stats.stock_optimum import stock_optimum
 from stats.negative_stock_expected_value import find_best_solution
+from connections import operations_weekly, operations
 
 external_stylesheets = [
     'https://codepen.io/chriddyp/pen/bWLwgP.css']
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
-
-data = pd.read_pickle("week_dataset.pkl").fillna(0)
 
 app.layout = html.Div(children=[
     html.H1(children="""Logistic index"""),
@@ -57,6 +57,17 @@ app.layout = html.Div(children=[
         children=[
             html.Div(id='logistic-index')
         ]
+    ),
+
+    html.Hr(),
+
+    html.H2('Operations'),
+    dcc.Loading(
+        id='operations-loader',
+        type='default',
+        children=[
+            html.Div(id='operations-table')
+        ]
     )
 ])
 
@@ -66,14 +77,14 @@ app.layout = html.Div(children=[
     [State('item-input', 'value'), State('store-input', 'value'), State('period-slider', 'value')]
 )
 def return_index(n_clicks, item, store, depth):
-    filtered_df = data[data['loc'] == int(store)]
+    filtered_df = operations_weekly(item, store)
     distributions = make_from_df(filtered_df[["sale", "defect", "spec_needs", "theft", "unknown"]])
     A = stock_optimum(
         filtered_df[["sale", "defect", "spec_needs", "theft", "unknown"]],
         0.62,
         64)
 
-    z = filtered_df['th_stock'].iloc[-1]
+    z = filtered_df['stock'].iloc[-1]
 
     e, p, _ = logistics_index(z, distributions, (0, A), depth, 10000)
 
@@ -98,14 +109,14 @@ def return_index(n_clicks, item, store, depth):
     [State('item-input', 'value'), State('store-input', 'value'), State('period-slider', 'value')]
 )
 def return_order(n_clicks, item, store, depth):
-    filtered_df = data[data['loc'] == int(store)]
+    filtered_df = operations_weekly(item, store)
     distributions = make_from_df(filtered_df[["sale", "defect", "spec_needs", "theft", "unknown"]])
     A = stock_optimum(
         filtered_df[["sale", "defect", "spec_needs", "theft", "unknown"]],
         0.62,
         64)
 
-    z = filtered_df['th_stock'].iloc[-1]
+    z = filtered_df['stock'].iloc[-1]
     print(z, (0, A), 1000, depth)
 
     by, be, bp = find_best_solution(z, distributions, (0, A), 1000, depth)
@@ -122,6 +133,21 @@ def return_order(n_clicks, item, store, depth):
         )
     ])
 
+@app.callback(
+    Output('operations-table', 'children'),
+    [Input('submit-button-state', 'n_clicks')], 
+    [State('item-input', 'value'), State('store-input', 'value')]
+)
+def return_operations(n_clicks, item, store):
+    df = operations(item, store)
+    return dash_table.DataTable(
+        data=df.to_dict('records'),
+        columns=[{'id': c, 'name': c} for c in df.columns],
+        fixed_rows={'headers': True},
+        style_header={
+            'overflow': 'hidden',
+            'textOverflow': 'ellipsis',
+            'maxWidth': 0})
 
 if __name__ == '__main__':
     app.run_server(host='0.0.0.0', port=5000, debug=True)
