@@ -4,7 +4,7 @@ Dashboard app for product ordering decision making.
 
 ## Summary
 
-Determining the economic order quantity has always been one of the most important issues in inventory management. This repository proposes a data-driven custom model and dashboard app for ordering decision making, which takes into account actual for large retail companies problems, such as thefts, defects and poor data quality, is defined. 
+Determining the economic order quantity has always been one of the most important issues in inventory management. This repository proposes a data-driven custom model and dashboard app for ordering decision making, which takes into account actual for large retail companies problems, such as thefts, defects and poor data quality. 
 
 ## Repository structure
 

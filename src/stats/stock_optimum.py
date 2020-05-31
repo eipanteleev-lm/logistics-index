@@ -17,6 +17,13 @@ def stock_optimum(df: DataFrame, k1: Union[int, float], k2: Union[int, float]) -
     return 0
 
 def order_optimum(df: DataFrame, k1: Union[int, float], k2: Union[int, float], z: Union[int, float], depth: int):
+    """
+    :param df: DataFrame, stock moving data
+    :param k1: int or float, in case of perishable product - storage cost + purchase price 
+                             else - only storage cost
+    :param k2: int or float, selling price
+    :return: int or float, optimal order quantity
+    """
     if depth == 1:
         return stock_optimum(df, k1, k2) - z
 

@@ -18,3 +18,11 @@ def operations(item, store):
 
     return df
 
+def price(item, store):
+    query = open('queries/price.sql').read()
+    query = query.format(product_code=item, store_id=store)
+    with sqlite3.connect(config.CONNECTION_STRING) as conn:
+        cur = conn.cursor()
+        r = cur.execute(query).fetchone()
+
+    return r

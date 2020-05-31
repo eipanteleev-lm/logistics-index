@@ -9,7 +9,7 @@ from stats.distributions import make_from_df
 from stats.index import logistics_index
 from stats.stock_optimum import stock_optimum
 from stats.negative_stock_expected_value import find_best_solution
-from connections import operations_weekly, operations
+from connections import operations_weekly, operations, price
 
 external_stylesheets = [
     'https://codepen.io/chriddyp/pen/bWLwgP.css']
@@ -79,10 +79,11 @@ app.layout = html.Div(children=[
 def return_index(n_clicks, item, store, depth):
     filtered_df = operations_weekly(item, store)
     distributions = make_from_df(filtered_df[["sale", "defect", "spec_needs", "theft", "unknown"]])
+    k2, k1, _ = price(item, store)
     A = stock_optimum(
         filtered_df[["sale", "defect", "spec_needs", "theft", "unknown"]],
-        0.62,
-        64)
+        k1,
+        k2)
 
     z = filtered_df['stock'].iloc[-1]
 
@@ -111,10 +112,11 @@ def return_index(n_clicks, item, store, depth):
 def return_order(n_clicks, item, store, depth):
     filtered_df = operations_weekly(item, store)
     distributions = make_from_df(filtered_df[["sale", "defect", "spec_needs", "theft", "unknown"]])
+    k2, k1, _ = price(item, store)
     A = stock_optimum(
         filtered_df[["sale", "defect", "spec_needs", "theft", "unknown"]],
-        0.62,
-        64)
+        k1,
+        k2)
 
     z = filtered_df['stock'].iloc[-1]
     print(z, (0, A), 1000, depth)
