@@ -11,8 +11,9 @@ Determining the economic order quantity has always been one of the most importan
 ```
 .
 |-queries
-|  |-operations_weekly.sql
 |  |-operations.sql
+|  |-operations_weekly.sql
+|  |-price.sql
 |-src
 |  |-stats
 |  |  |-distributions.py
