@@ -1,0 +1,41 @@
+version: "3.7"
+
+x-common-env: &common-env
+  POSTGRES_HOST: "postgres"
+  POSTGRES_PORT: "5432"
+  POSTGRES_USER: ${POSTGRES_USER:-postgres}
+  POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+  POSTGRES_DB: ${POSTGRES_USER:-postgres}
+
+services:
+  web:
+    container_name: logistics-index-web
+    build: .
+    environment: 
+      <<: *common-env
+    ports:
+      - "5002:5000"
+
+  postgres:
+    container_name: logistics-index-postgres
+    image: postgres:latest
+    environment: 
+      <<: *common-env
+    ports: 
+      - "5432:5432"
+
+  liquibase:
+    container_name: logistics-index-liquibase
+    image: liquibase/liquibase:latest
+    restart: on-failure:5
+    depends_on: 
+      - postgres
+    volumes:
+      - "./logistics-index-db:/liquibase/changelog" 
+    command: [
+      "--url=jdbc:postgresql://postgres:5432/${POSTGRES_USER:-postgres}", 
+      "--changeLogFile=/liquibase/changelog/changelog.xml", 
+      "--username=${POSTGRES_USER:-postgres}",
+      "--password=${POSTGRES_PASSWORD:-postgres}",
+      "--logLevel=INFO",
+      "update"]
