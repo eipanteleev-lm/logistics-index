@@ -18,8 +18,6 @@ RUN python3.7 -m pip install --upgrade pip \
 COPY src src
 COPY queries queries
 
-VOLUME data /usr/app/data
-
 ENTRYPOINT [ "python3.7" ]
 
 CMD ["src/app.py"]
