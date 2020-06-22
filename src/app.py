@@ -1,5 +1,4 @@
 import dash
-import dash_table
 import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output, State
@@ -56,17 +55,6 @@ app.layout = html.Div(children=[
         type='default',
         children=[
             html.Div(id='logistic-index')
-        ]
-    ),
-
-    html.Hr(),
-
-    html.H2('Operations'),
-    dcc.Loading(
-        id='operations-loader',
-        type='default',
-        children=[
-            html.Div(id='operations-table')
         ]
     )
 ])
@@ -134,22 +122,6 @@ def return_order(n_clicks, item, store, depth):
             style={'backgroundColor': '#33FF8B', 'pading': 2, 'marging': 2}
         )
     ])
-
-@app.callback(
-    Output('operations-table', 'children'),
-    [Input('submit-button-state', 'n_clicks')], 
-    [State('item-input', 'value'), State('store-input', 'value')]
-)
-def return_operations(n_clicks, item, store):
-    df = operations(item, store)
-    return dash_table.DataTable(
-        data=df.to_dict('records'),
-        columns=[{'id': c, 'name': c} for c in df.columns],
-        fixed_rows={'headers': True},
-        style_header={
-            'overflow': 'hidden',
-            'textOverflow': 'ellipsis',
-            'maxWidth': 0})
 
 if __name__ == '__main__':
     app.run_server(host='0.0.0.0', port=5000, debug=True)
