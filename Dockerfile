@@ -17,7 +17,6 @@ RUN python3.7 -m pip install --upgrade pip \
 
 COPY src src
 COPY queries queries
-COPY data data
 
 VOLUME data /usr/app/data
 
