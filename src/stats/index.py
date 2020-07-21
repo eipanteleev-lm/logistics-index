@@ -13,11 +13,11 @@ def logistics_index(z: Union[int, float], d: Dict[Union[int, float], Callable], 
 
     zl = [deep_next(0, z, d, depth, **kwargs) for i in range(n)]
     nz = list(filter(lambda x: x < 0, zl))
-    bl = reduce(lambda s, e: s + 1, filter(lambda x: x >= bounds[0] and x <= bounds[1], zl))
+    bz = list(filter(lambda x: x >= bounds[0] and x <= bounds[1], zl))
 
     if not nz:
-        return 0, bl/n, sum(zl)/n
+        return 0, len(bz)/n, sum(zl)/n
 
-    return sum(nz)/len(nz), bl/n, sum(zl)/n
+    return sum(nz)/len(nz), len(bz)/n, sum(zl)/n
 
 

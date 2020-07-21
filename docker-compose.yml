@@ -14,7 +14,7 @@ services:
     environment: 
       <<: *common-env
     ports:
-      - "5002:5000"
+      - "5000:5000"
 
   postgres:
     container_name: logistics-index-postgres

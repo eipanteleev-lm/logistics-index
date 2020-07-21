@@ -23,6 +23,8 @@ def price(item, store):
     query = query.format(product_code=item, store_id=store)
     with psycopg2.connect(**config.CONNECTION_PARAMETERS) as conn:
         cur = conn.cursor()
-        r = cur.execute(query).fetchone()
+        cur.execute(query)
+        r = cur.fetchone()
+        cur.close()
 
     return r

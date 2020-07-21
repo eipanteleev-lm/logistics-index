@@ -21,9 +21,9 @@ app.layout = html.Div(children=[
     html.Div(children=[
         html.Div(children=[
             html.Label('Item'),
-            dcc.Input(id='item-input', value='18122532', type='text', style={'pading': 2, 'marging': 2}),
+            dcc.Input(id='item-input', value='12345678', type='text', style={'pading': 2, 'marging': 2}),
             html.Label('Store'),
-            dcc.Input(id='store-input', value='2', type='text', style={'pading': 2, 'marging': 2}),
+            dcc.Input(id='store-input', value='10', type='text', style={'pading': 2, 'marging': 2}),
             html.Label('Depth'),
             dcc.Slider(
                 id='period-slider',
