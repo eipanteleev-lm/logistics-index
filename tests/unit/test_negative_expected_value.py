@@ -1,7 +1,8 @@
-import pytest
 import random
 
-from src.stats.negative_stock_expected_value import next, deep_next, logistics_index, negative_expected_value
+from src.stats.negative_stock_expected_value import next, deep_next
+from src.stats.negative_stock_expected_value import logistics_index
+from src.stats.negative_stock_expected_value import negative_expected_value
 
 
 def test_next():
@@ -39,7 +40,7 @@ def test_negative_expected_value__random(distribution):
 
     e, p = negative_expected_value(10, 5, (0, 100), test_d, 10)
 
-    assert e >= 0 
+    assert e >= 0
     assert p >= 0
     assert p <= 1
 
@@ -51,7 +52,7 @@ def test_negative_expected_value__in_bounds():
 
     e, p = negative_expected_value(10, 5, (0, 100), test_d, 10)
 
-    assert e == 0 
+    assert e == 0
     assert p == 1
 
 
@@ -62,7 +63,7 @@ def test_negative_expected_value__not_in_bounds_negative():
 
     e, p = negative_expected_value(10, 5, (0, 100), test_d, 10)
 
-    assert e > 0 
+    assert e > 0
     assert p == 0
 
 
@@ -73,5 +74,5 @@ def test_negative_expected_value__not_in_bounds_positive():
 
     e, p = negative_expected_value(10, 5, (0, 100), test_d, 10)
 
-    assert e == 0 
+    assert e == 0
     assert p == 0

@@ -6,16 +6,17 @@ from src.stats.distributions import fit, make_from_df
 
 def test_fit__simple():
     """
-    fit () should return callable, which returns one of the passed dictionary's keys
+    fit () should return callable, which returns one of the passed
+    dictionary's keys
     """
 
     test_data = {
-        1: 0.5, 
+        1: 0.5,
         2: 0.5
     }
 
     d = fit(test_data)
-    
+
     assert callable(d)
     assert all([d() in (1, 2) for i in range(10)])
 

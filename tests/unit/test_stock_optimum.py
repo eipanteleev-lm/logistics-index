@@ -6,6 +6,7 @@ from src.stats.stock_optimum import stock_optimum
 params = [(i, 10 - i) for i in range(11)]
 ids = ['k1={0}, k2={1}'.format(*p) for p in params]
 
+
 @pytest.mark.parametrize('k1, k2', params, ids=ids)
 def test_stock_optimum__random(k1, k2, df_sample):
 
