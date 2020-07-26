@@ -1,0 +1,31 @@
+sudo: required
+
+language: python
+python:
+  - "3.7"
+
+env:
+  - DOCKER_COMPOSE_VERSION=1.25.5
+
+services:
+  - docker
+
+before_install:
+  - sudo rm /usr/local/bin/docker-compose
+  - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
+  - chmod +x docker-compose
+  - sudo mv docker-compose /usr/local/bin
+
+install:
+  - pip install -r requirements.txt
+
+script:
+  - python -m pytest test/unit -vv
+  - python -m flake8
+  - docker-compose run --rm liquibase
+  - docker-compose down
+  - docker build -t test_web .
+  - docker-compose up -d --build
+
+after_script:
+  - docker-compose down
