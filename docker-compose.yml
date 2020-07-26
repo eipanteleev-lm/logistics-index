@@ -32,9 +32,9 @@ services:
       - postgres
     volumes:
       - "./logistics-index-db:/liquibase/changelog" 
-    command: [
+    command: ["/liquibase/liquibase",
       "--url=jdbc:postgresql://postgres:5432/${POSTGRES_USER:-postgres}", 
-      "--changeLogFile=/liquibase/changelog/changelog.xml", 
+      "--changeLogFile=changelog/changelog.xml", 
       "--username=${POSTGRES_USER:-postgres}",
       "--password=${POSTGRES_PASSWORD:-postgres}",
       "--logLevel=INFO",

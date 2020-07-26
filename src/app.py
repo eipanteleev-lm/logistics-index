@@ -5,9 +5,8 @@ from dash.dependencies import Input, Output, State
 
 import pandas as pd
 from stats.distributions import make_from_df
-from stats.index import logistics_index
 from stats.stock_optimum import stock_optimum
-from stats.negative_stock_expected_value import find_best_solution
+from stats.negative_stock_expected_value import find_best_solution, logistics_index
 from connections import operations_weekly, operations, price
 
 external_stylesheets = [

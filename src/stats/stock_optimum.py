@@ -11,8 +11,8 @@ def stock_optimum(df: DataFrame, k1: Union[int, float], k2: Union[int, float]) -
     """
 
     l = sorted(df.sum(axis=1).values, reverse=True)
-    if l:
-        return -l[-1] if k2/(k1+k2) == 1 else -l[int(len(l)*k2/(k1+k2))]
+    if l:   
+        return max(-l[-1] if k2/(k1+k2) == 1 else -l[int(len(l)*k2/(k1+k2))], 0)
         
     return 0
 
