@@ -17,6 +17,7 @@ RUN python3.7 -m pip install --upgrade pip \
 
 COPY src src
 COPY queries queries
+COPY tests tests
 
 ENTRYPOINT [ "python3.7" ]
 
