@@ -11,12 +11,18 @@ jobs:
   include:
     - stage: build
       script: docker build -t logistics-index .
+      after_script: docker system prune -af
     - stage: test
       name: "unit"
+      before_script: docker build -t logistics-index .
       script: docker run --rm logistics-index -m pytest tests/unit -vv
+      after_script: docker system prune -af
     - name: "flake8"
+      before_script: docker build -t logistics-index .
       script: docker run --rm logistics-index -m flake8 src
+      after_script: docker system prune -af
     - name: "functional"
+      before_script: docker build -t logistics-index .
       script:
         - docker run --rm -d --name=logistics-index-web
           -p 5000:5000
@@ -29,3 +35,4 @@ jobs:
         - sh waitforweb.sh localhost:5000 5
       after_script:
         - docker stop logistics-index-web
+        - docker system prune -af
