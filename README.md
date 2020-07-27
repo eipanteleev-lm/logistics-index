@@ -1,5 +1,7 @@
 # logistics-index
 
+[![Build Status](https://travis-ci.com/eipanteleev-lm/logistics-index.svg?branch=master)](https://travis-ci.com/eipanteleev-lm/logistics-index)
+
 Dashboard app for product ordering decision making.
 
 ## Summary
