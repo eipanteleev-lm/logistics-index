@@ -9,9 +9,9 @@ stages:
 
 jobs:
   include:
-    - build:
+    - stage: build
       script: docker build -t logistics-index .
-    - test:
+    - stage: test
       name: "unit"
       script: docker run --rm logistics-index -m pytest tests/unit -vv
     - name: "flake8"
