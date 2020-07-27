@@ -22,7 +22,7 @@ script:
     -e POSTGRES_PORT=5432
     -e POSTGRES_DB=postgres
     logistics-index
-  - curl -I -f localhost:5000
+  - sh waitforweb.sh localhost:5000 5
 
 after_script:
   - docker stop logistics-index-web
