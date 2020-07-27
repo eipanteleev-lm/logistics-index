@@ -19,18 +19,25 @@ Determining the economic order quantity has always been one of the most importan
 |-src
 |  |-stats
 |  |  |-distributions.py
-|  |  |-index.py
 |  |  |-negative_stock_expected_value.py
 |  |  |-stock_optimum.py
 |  |-app.py
 |  |-config.py
 |  |-connections.py
-|  |-test.py
+|-tests
+|  |-unit
+|  |  |-test_connections.py
+|  |  |-test_distributions.py
+|  |  |-test_negative_expected_value.py
+|  |  |-test_stock_optimum.py
+|  |-conftest.py
 |-.dockerignore
 |-.gitignore
+|-.travis.yml
 |-Dockerfile
 |-README.md
 |-requirements.txt
+|-waitforweb.sh
 ```
 
 ## Links
