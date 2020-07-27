@@ -3,6 +3,8 @@
 .dockerignore
 .git
 .gitignore
+.pytest_cache
+**/__pycache__
 Dockerfile
 Jenkinsfile
 README.md
