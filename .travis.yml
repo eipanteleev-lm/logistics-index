@@ -3,19 +3,29 @@ sudo: required
 services:
   - docker
 
-script:
-  - docker build -t logistics-index .
-  - docker run --rm logistics-index -m pytest tests/unit -vv
-  - docker run --rm logistics-index -m flake8 src
-  - docker run --rm -d --name=logistics-index-web
-    -p 5000:5000
-    -e POSTGRES_USER=postgres
-    -e POSTGRES_PASSWORD=postgres
-    -e POSTGRES_HOST=postgres
-    -e POSTGRES_PORT=5432
-    -e POSTGRES_DB=postgres
-    logistics-index
-  - sh waitforweb.sh localhost:5000 5
+stages:
+  - build
+  - test
 
-after_script:
-  - docker stop logistics-index-web
+jobs:
+  include:
+    - build:
+      script: docker build -t logistics-index .
+    - test:
+      name: "unit"
+      script: docker run --rm logistics-index -m pytest tests/unit -vv
+    - name: "flake8"
+      script: docker run --rm logistics-index -m flake8 src
+    - name: "functional"
+      script:
+        - docker run --rm -d --name=logistics-index-web
+          -p 5000:5000
+          -e POSTGRES_USER=postgres
+          -e POSTGRES_PASSWORD=postgres
+          -e POSTGRES_HOST=postgres
+          -e POSTGRES_PORT=5432
+          -e POSTGRES_DB=postgres
+          logistics-index
+        - sh waitforweb.sh localhost:5000 5
+      after_script:
+        - docker stop logistics-index-web
