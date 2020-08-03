@@ -37,7 +37,29 @@ Determining the economic order quantity has always been one of the most importan
 |-Dockerfile
 |-README.md
 |-requirements.txt
+|-tox.ini
 |-waitforweb.sh
+```
+
+## Testing
+
+You can use `tox` for testing:
+
+```sh
+tox
+```
+
+or pytest:
+
+```sh
+python -m pytest tests/unit -vv
+```
+
+or ...
+
+```sh
+docker build -t logistics-index .
+docker run --rm logistics-index -m pytest tests/unit -vv
 ```
 
 ## Links
