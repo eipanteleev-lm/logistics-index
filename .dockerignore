@@ -4,6 +4,8 @@
 .git
 .gitignore
 .pytest_cache
+.tox
+.travis.yml
 **/__pycache__
 Dockerfile
 Jenkinsfile

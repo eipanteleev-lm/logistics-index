@@ -6,6 +6,10 @@ import mock
 import pandas as pd
 
 
+sys.modules['config'] = mock.MagicMock()
+sys.modules['psycopg2'] = mock.MagicMock()
+
+
 @pytest.fixture()
 def df_sample():
     return pd.DataFrame([
@@ -35,9 +39,6 @@ distributions_ids = ['const: {}'.format(d['A']()) for d in distributions]
 @pytest.fixture(params=distributions, ids=distributions_ids)
 def distribution(request):
     return request.param
-
-
-sys.modules['config'] = mock.MagicMock()
 
 
 @pytest.fixture()

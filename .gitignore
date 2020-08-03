@@ -1,6 +1,7 @@
 .vscode
 .idea
 .dev
+.tox
 
 # Python
 __pycache__/
