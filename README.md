@@ -49,12 +49,6 @@ You can use `tox` for testing:
 tox
 ```
 
-or pytest:
-
-```sh
-python -m pytest tests/unit -vv
-```
-
 or ...
 
 ```sh
